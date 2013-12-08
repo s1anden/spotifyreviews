@@ -1,0 +1,45 @@
+<html>
+	<head>
+		<title><%= title %></title>
+		<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+	</head>
+	<body>
+		<a href="/">Back to Index</a>
+		<% if (review) { %>
+			<div class="username">
+				<span>Username: </span>
+				<%= review.username %>
+			</div>
+			<div class="reviewText">
+				<span>Review: </span>
+				<%= review.reviewText %>
+			</div>
+			<div class="song">
+				<span>Song: </span>
+				<%= review.song %>
+			</div>
+
+			<form method="post">
+				<div>
+					<span>Username: </span>
+					<input type="text" name="username" id="editUsername" value="<%= review.username %>"></input>
+				</div>
+				<div>
+					<span>Review: </span>
+					<textarea name="reviewText" id="editReviewText" rows=20>
+						<%= review.reviewText %>
+					</textarea>
+				</div>
+				<div>
+					<span>Song: </span>
+					<input type="text" name="song" id="editSong" value="<%= review.song %>"></input>
+				</div>
+				<input type="submit" value="Edit"></input>
+			</form>
+
+			<a href="/reviews/<%= review.username %>/<%= review.song %>/delete">Delete Review</a>
+		<% } %>
+	</body>
+</html>
+
+

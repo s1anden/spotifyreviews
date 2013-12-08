@@ -1,0 +1,26 @@
+<html>
+	<head>
+		<title><%= title %></title>
+		<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+	</head>
+	<body>
+		<a href="/reviews/new">New Review</a>
+		<% reviews.forEach(function(review) { %>
+			<div class="username">
+				<span>Username: </span>
+				<%= review.username %>
+			</div>
+			<div class="reviewText">
+				<span>Review: </span>
+				<a href="/reviews/<%= review.username %>/<%= review.song %>"><%= review.reviewText %></a>
+			</div>
+			<div class="song">
+				<span>Song: </span>
+				<%= review.song %>
+			</div>
+		<% }); %>
+		<!-- <a href="/reviews/delete">Delete All</a> -->
+	</body>
+</html>
+
+
