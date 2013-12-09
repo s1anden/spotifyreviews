@@ -1,0 +1,12 @@
+<html>
+<head>
+	<title><%= title %></title>
+</head>
+<body>
+	<% results.forEach(function(album) { %>
+		<p>Name: <a href="/albums/<%= album.href %>"><%= album.name %></a></p>
+		<p>Artist: <%= album.artists[0].name %></p>
+		<p>URI: <%= album.href %></p>
+	<% }); %>
+</body>
+</html>

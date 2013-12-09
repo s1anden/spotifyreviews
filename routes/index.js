@@ -1,4 +1,5 @@
 var mongo = require("../models/mymongo.js");
+var spotify = require("../models/myspotify.js");
 
 exports.index = function(req, res) {
 	console.log("rendering index page");
@@ -8,11 +9,11 @@ exports.index = function(req, res) {
 };
 
 exports.newReview = function(req, res) {
-	res.render('new', {title: "New Review"});
+	res.render('new', {title: "New Review", user:req.user});
 };
 
 exports.createReview = function(req, res) {
-	mongo.insert("SpotifyReviews", "reviews", {username:req.param('username'), reviewText:req.param('reviewText'), song:req.param('song')}, function(model){
+	mongo.insert("SpotifyReviews", "reviews", {user:req.user, reviewText:req.param('reviewText'), album:req.album}, function(model){
 		res.redirect('/');
 	});
 };
@@ -34,7 +35,21 @@ exports.deleteReview = function(req, res) {
 	mongo.delete("SpotifyReviews", "reviews", {username:req.params.username, song:req.params.song}, function(model){
 		res.redirect('/');
 	})
-}
+};
+
+exports.search = function(req, res) {
+	spotify.search(req.query.terms, function(data) {
+		console.log(data);
+		res.render('search', {title: "Spotify Reviews", results:data.albums});
+	});
+};
+
+exports.showAlbum = function(req, res) {
+	spotify.lookup(req.params.uri, function(data) {
+		console.log(data);
+		res.render('album', {title: "Spotify Reviews", album:data.album, user: req.user});
+	});
+};
 // testing purposes only
 // exports.deleteAll = function(req, res) {
 // 	mongo.delete("SpotifyReviews", "reviews", req.query, function(model){

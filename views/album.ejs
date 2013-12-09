@@ -1,26 +1,23 @@
 <html>
-	<head>
-		<title><%= title %></title>
-		<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
-	</head>
-	<body>
-		<% if (!user) { %>
+<head>
+	<title><%= title %></title>
+</head>
+<body>
+	<h2><%= album.name %></h2>
+	<h3><%= album.artist %></h3>
+	<iframe src="https://embed.spotify.com/?uri=<%= album.href %>" width="300" height="380" frameborder="0" allowtransparency="true"></iframe>
+
+	<% if (!user) { %>
 			<h2>Log in to write a review of this album</h2>
 			<a href="/auth/facebook"><img src="login-with-facebook.png" width="154" height="22"></a>
 		<% } else { %>
-			<form method="post" action="/search">
+			<form method="post">
 				<div>
 					<span>Review: </span>
 					<textarea name="reviewText" id="editReviewText" rows=20></textarea>
 				</div>
-				<div>
-					<span>Song: </span>
-					<input type="text" name="song" id="editSong"></input>
-				</div>
 				<input type="submit" value="Send"></input>
 			</form>
 		<% } %>
-	</body>
+</body>
 </html>
-
-
