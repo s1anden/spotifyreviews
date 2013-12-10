@@ -19,6 +19,7 @@ db.open(function(err, db_p) {
 
 // INSERT
 exports.insert = function(database, collection, query, callback) {
+  console.log(query);
   db.collection(collection).insert(query, {safe:true}, function(err, crsr) {
     console.log("Inserting doc with data: " + query);
     callback(crsr);
@@ -47,7 +48,7 @@ exports.update = function(database, collection, query, callback) {
 exports.delete = function(database, collection, query, callback) {
   console.log("attempting to delete " + query);
   db.collection(collection).remove(query, true, function(err, crsr) {
-    if (err) doError(err);
+    if (err) { doError(err) };
     callback('Delete succeeded');
   });
 }

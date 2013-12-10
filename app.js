@@ -16,7 +16,7 @@ var FACEBOOK_APP_SECRET = "a1f185c26d2bff41a7a8d24839da563e";
 var PROFILE_FIELDS = ['id', 'username', 'name', 'gender', 'displayName', 'photos', 'profileUrl'];
 var profileToPassToClient;
 var PORT = 3000;
-var CALLBACK_URL = 'http://localhost:' + PORT + '/auth/facebook/callback';
+var CALLBACK_URL = 'http://spotifyreviews.nodejitsu.com/auth/facebook/callback';
 var LOGIN_PATH = '/';
 
 passport.serializeUser(function(user, done) {
@@ -67,17 +67,13 @@ app.get('/', function(req, res) {
 	console.log("rendering index page");
 	mongo.find("SpotifyReviews", "reviews", req.query, function(model){
 		res.render('index', {title: "Spotify Reviews", reviews:model, user: req.user, profile: profileToPassToClient})
-	})
+	});
 });
 app.get('/reviews/new', routes.newReview);
 app.get('/reviews/:username/:song', routes.showReview);
 app.post('/reviews/new', routes.createReview);
-app.post('/reviews/:username/:song', routes.editReview);
-app.get('/reviews/:username/:song/delete', routes.deleteReview);
 
-app.get('/account', ensureAuthenticated, function(req, res){
-	res.render('account', {user:req.user, profile:profileToPassToClient});
-});
+app.get('/account', ensureAuthenticated, routes.account);
 
 app.get('/auth/facebook',
 	passport.authenticate('facebook'),

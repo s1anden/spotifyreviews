@@ -1,39 +1,48 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>
 		<title><%= title %></title>
 		<script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js'></script>
+		<link href="css/bootstrap-responsive.css" type="text/css" rel="stylesheet"></link>
+		<link href="css/bootstrap.css" type="text/css" rel="stylesheet"></link>
+		<link rel="icon" type="image/png" href="/img/favicon.png">
 	</head>
 	<body>
-		<form method="get" action="/search">
-			<input type="text" name="terms"></input>
-			<input type="submit" value="Search"></input>
-		</form>
-		<% if (!user) { %>
-			<h2>Welcome! Please log in.</h2>
-			<a href="/auth/facebook"><img src="login-with-facebook.png" width="154" height="22"></a>
-		<% } else { %>
-			<h2>Hello, <a href="/account"><%= user.username %></a>.</h2>
-			<% console.log(profile) %>
-			<p><em>Name: </em><%= profile.displayName %></p>
-			<a href="/logout">Log out</a>
-		<% } %>
-		<a href="/reviews/new">New Review</a>
-		<% reviews.forEach(function(review) { %>
-			<div class="username">
-				<span>Username: </span>
-				<%= review.user._json.name %>
-				<% console.log(review.user); %>
+		<nav class="navbar navbar-default" role="navigation">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/"><img src="img/logo.png"></a>
 			</div>
-			<div class="reviewText">
-				<span>Review: </span>
-				<a href="/reviews/<%= review.username %>/<%= review.song %>"><%= review.reviewText %></a>
+			<div class="collapse navbar-collapse">
+				<ul class="nav navbar-nav navbar-right">
+					<% if (!user) { %>
+						<li><form action="/auth/facebook"><button class="btn btn-primary navbar-btn">Login with Facebook</button></form></li>
+					<% } else { %>
+						<li><a href="/account"><%= user.displayName %></a></li>
+						<li><form action="/logout"><button class="btn btn-danger navbar-btn">Log out</button></form></li>
+					<% } %>
+					<li><form class="navbar-form" role="search" method="get" action="/search">
+						<div class="form-group">
+							<input type="text" class="form-control" placeholder="Search" name="terms"></input>
+						</div>
+						<input type="submit" class="btn btn-default" value="Search"></input>
+					</form></li>
+				</ul>
 			</div>
-			<div class="song">
-				<span>Song: </span>
-				<%= review.album %>
-				<% console.log(review.album) %>
-			</div>
-		<% }); %>
+		</nav>
+		<div class="container">
+			<% reviews.forEach(function(review) { %>
+				<div class="row-fluid">
+					<div class="span12">
+						<h4><%= review.user._json.name %> reviewed
+							<a href="/albums/<%= review.album.href %>"><%= review.album.name %></a> by <%= review.album.artist %></h4>
+						<div class="reviewText">
+							<%= review.reviewText %>
+						</div>
+						<hr>
+					</div>
+				</div>
+			<% }); %>
+		</div>
 		<!-- <a href="/reviews/delete">Delete All</a> -->
 	</body>
 </html>
